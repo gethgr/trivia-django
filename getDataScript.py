@@ -68,7 +68,6 @@ def load_new_data(df, token):
     df_new = pd.DataFrame(data = list_values)
     frames = [df, df_new]
     df = pd.concat(frames)
-    df.to_csv('questions.csv', index=False)
     return df
 
 # fetch one question, this function is only for the last remaining questions:
