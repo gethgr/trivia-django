@@ -1,0 +1,75 @@
+
+{% extends "base.html" %}
+
+{% block page_content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Questions List</h1> 
+            <br> 
+            <div class="row">            
+<table id="questionsTable" class="table" style="width:100%">
+    <thead>
+        <tr>
+        <th>Type</th>
+        <th>Difficulty</th>
+        <th>Category</th>
+        <th>Question</th>
+        <th>Play</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for question in allQuestions %}
+        <tr>
+            <td>{{question.type}}</td>
+            <td>{{question.difficulty}}</td>
+            <td>{{question.category}}</td>
+            <td>{{question.question}}</td>
+            <td><a href="{% url 'question_index' question.pk %}" class="btn btn-primary">Play</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Type</th>
+            <th>Difficulty</th>
+            <th>Category</th>
+            <th>Question</th>
+        </tr>
+    </tfoot>
+</table>
+            </div> 
+        </div> 
+    </div>
+</div>
+
+</body> 
+</html>
+
+<script>
+    new DataTable('#questionsTable', {
+    initComplete: function () {
+        this.api()
+            .columns()
+            .every(function () {
+                let column = this;
+                let title = column.footer().textContent;
+ 
+                // Create input element
+                let input = document.createElement('input');
+                input.placeholder = title;
+                column.footer().replaceChildren(input);
+ 
+                // Event listener for user input
+                input.addEventListener('keyup', () => {
+                    if (column.search() !== this.value) {
+                        column.search(input.value).draw();
+                    }
+                });
+            });
+    }
+});
+</script>    
+
+{% endblock page_content %}
